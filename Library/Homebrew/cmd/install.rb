@@ -18,7 +18,8 @@ module Homebrew extend self
       end
       if name =~ HOMEBREW_TAP_REGEX then
         require 'cmd/tap'
-        install_tap $1, $2
+
+        install_tap $1, $2 unless already_tapped? $1, $2
       end
     end unless ARGV.force?
 
