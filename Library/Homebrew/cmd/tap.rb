@@ -104,7 +104,8 @@ module Homebrew extend self
 
   def already_tapped? user, repo
     # we downcase to avoid case-insensitive filesystem issues
-    HOMEBREW_LIBRARY/"Taps/#{user.downcase}-#{repo.downcase}".directory?
+    tap_dir = HOMEBREW_LIBRARY/"Taps/#{user.downcase}-#{repo.downcase}"
+    tap_dir.directory?
   end
 
   private
