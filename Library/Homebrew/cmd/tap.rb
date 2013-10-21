@@ -21,9 +21,7 @@ module Homebrew extend self
     repouser = if user == "homebrew" then "Homebrew" else user end
     user = "homebrew" if user == "Homebrew"
 
-    # we downcase to avoid case-insensitive filesystem issues
-    tapd = HOMEBREW_LIBRARY/"Taps/#{user.downcase}-#{repo.downcase}"
-    raise "Already tapped!" if tapd.directory?
+    raise "Already tapped!" if already_tapped? user, repo
     abort unless system "git clone https://github.com/#{repouser}/homebrew-#{repo} #{tapd}"
 
     files = []
@@ -102,6 +100,11 @@ module Homebrew extend self
     end
 
     puts "Tapped #{count} formula"
+  end
+
+  def already_tapped? user, repo
+    # we downcase to avoid case-insensitive filesystem issues
+    HOMEBREW_LIBRARY/"Taps/#{user.downcase}-#{repo.downcase}".directory?
   end
 
   private
